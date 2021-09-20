@@ -10,7 +10,7 @@ settings.py
 
 # Distribution / packaging
 .Python
-data/
+data/*
 env/
 venv/
 build/
