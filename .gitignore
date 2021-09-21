@@ -92,4 +92,3 @@ backup/*.zip
 logs/*.log
 .vscode/
 downloads
-*.txt
