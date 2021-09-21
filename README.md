@@ -26,9 +26,9 @@
 2. install virtualenv `pip install virtualenv`
 3. create a virtual environment through virtualenv `virtualenv venv`
 4. activate that environment 
-	*FOR WINDOWS* `source venv/bin/activate`  
-	*FOR LINUX*  `source venv/Scripts/activate`
-	Successful activation will result in **(venv)** printed on your shell
+	4.1 *FOR WINDOWS* `source venv/bin/activate`  
+	4.2 *FOR LINUX*  `source venv/Scripts/activate`
+	4.3 Successful activation will result in **(venv)** printed on your shell
 5. install necessary libraries `pip install -r requirements.txt`
 
 
@@ -40,8 +40,8 @@
 
 #### Download required zipped files and place them in data folder in root of project directory
 1. Download https://dumps.wikimedia.org/enwiki/latest/enwiki-latest-abstract.xml.gz
-2. Go to https://www.kaggle.com/rounakbanik/the-movies-dataset/version/7#movies_metadata.csv and download the movies_metadata.csv file
-3. Place both these files in the data folder in the root of the project directory
+2. Go to https://www.kaggle.com/rounakbanik/the-movies-dataset/version/7#movies_metadata.csv and download the _movies_metadata.csv_ file
+3. Place both these files in the *_data_* folder in the root of the project directory
 
 #### Run the source code
 1. Run the command `python main.py` to run the project
