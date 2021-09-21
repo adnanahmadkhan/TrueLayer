@@ -86,7 +86,7 @@
 	7. avatar 2
 	8. This is because the wikipedia naming convention for movies in case of ambiguitaion adds the release year/film to remove ambiguition between different topics. 
 	9. For titles that were not found after these 6 approaches, those records were added with the Wikipedia fields as empty. 
-	10. As such there were 42/1000 records like this. This was found using this query `select * from final where coalesce(url, '') = '';`
+	10. As such there were 32/1000 records like this. This was found using this query `select * from final where coalesce(url, '') = '';`
 
 
 ## Testing for correctness
@@ -97,5 +97,12 @@
 
 ## Screenshots
 ![image](https://user-images.githubusercontent.com/8340245/134230371-97d12ee9-1ee0-4416-a272-cdbe71016150.png)
+
+![image](https://user-images.githubusercontent.com/8340245/134230974-c71ce6b1-2d09-4a5d-b9d0-7a59413e62ce.png)
+
+![image](https://user-images.githubusercontent.com/8340245/134231035-e80cb921-bc72-4c95-a0df-05ffa4ce1547.png)
+
+![image](https://user-images.githubusercontent.com/8340245/134231173-4dc745a8-4451-4eec-8da7-4641be20c6f1.png)
+
 
 
