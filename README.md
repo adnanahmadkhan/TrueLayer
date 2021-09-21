@@ -13,7 +13,7 @@
 2. Download postgres for your Operating System (Windows/Linux). 
 3. Execute the downloaded file
 4. Install the database with default options
-5. Remember the password and username for the account you create here, we will need it later on
+5. Remember the password and username(usually _postgres_) for the account you create here, we will need it later on
 
 #### Download this repository from Github through git clone
 1. `git clone https://github.com/adnanahmadkhan/TrueLayer.git TrueLayer`
@@ -21,7 +21,7 @@
 #### From your terminal go into the downloaded repository folder
 1. `cd TrueLayer`
 
-#### Go to your bash terminal
+#### Go to your terminal
 1. run the following commands 
 2. install virtualenv `pip install virtualenv`
 3. create a virtual environment through virtualenv `virtualenv venv`
