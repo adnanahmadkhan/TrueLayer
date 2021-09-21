@@ -16,20 +16,20 @@
 	- Remember the password and username for the account you create here, we will need it later on
 
 #### Download this repository from Github through git clone
-	- ```git clone https://github.com/adnanahmadkhan/TrueLayer.git TrueLayer```
+	- `git clone https://github.com/adnanahmadkhan/TrueLayer.git TrueLayer`
 
 #### From your terminal go into the downloaded repository folder
-	- ```cd TrueLayer```
+	- `cd TrueLayer`
 
 #### Go to your bash terminal
 	- run the following commands 
-	- install virtualenv ```pip install virtualenv```
-	- create a virtual environment through virtualenv ```virtualenv venv```
+	- install virtualenv `pip install virtualenv`
+	- create a virtual environment through virtualenv `virtualenv venv`
 	- activate that environment 
-		- *FOR WINDOWS* ```source venv/bin/activate```   
-		- *FOR LINUX*  ```source venv/Scripts/activate```
+		- *FOR WINDOWS* `source venv/bin/activate`  
+		- *FOR LINUX*  `source venv/Scripts/activate`
 		- Successful activation will result in **(venv)** printed on your shell
-	- install necessary libraries ```pip install -r requirements.txt```
+	- install necessary libraries `pip install -r requirements.txt`
 
 
 #### Update your env.json file
@@ -42,3 +42,6 @@
 	- Download https://dumps.wikimedia.org/enwiki/latest/enwiki-latest-abstract.xml.gz
 	- Go to https://www.kaggle.com/rounakbanik/the-movies-dataset/version/7#movies_metadata.csv and download the movies_metadata.csv file
 	- Place both these files in the data folder in the root of the project directory
+
+#### Run the source code
+	- Run the command `python main.py` to run the project
