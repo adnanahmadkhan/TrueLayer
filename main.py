@@ -48,6 +48,7 @@ event, root = context.__next__()
 
 LOG.info("Iterating over the XML database and collecting necessary stats")
 try:
+    null_titles = 0
     while event:
         title = url = abstract = ""
         (event, elem) = context.__next__()
@@ -66,9 +67,14 @@ try:
                     break
                 root.clear()
             if title not in ["", None]:
+                if title in wiki_table:
+                    null_titles+=1
                 wiki_table[title] = {"url": url, "abstract":  abstract}
+            else:
+                null_titles += 1
 except Exception as err:
     LOG.info("Length of Wiki database is:: "+ str(len(wiki_table)))
+    LOG.info("Number of empty/null titles is:: "+ str(null_titles))
     if err:
         print(err)
 
