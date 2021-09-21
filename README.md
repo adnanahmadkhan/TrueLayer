@@ -45,3 +45,14 @@
 
 #### Run the source code
 1. Run the command `python main.py` to run the project
+
+
+
+## Querying the data
+1. When we install postgres, pgadmin 4 is installed by default. We can use this tool to query our data after our script is done running. Some queries are as follows.
+2. `SELECT COUNT(*) FROM final;` to count the total number of entries in our database
+3. `SELECT title, release_date, ratio, budget, revenue FROM final order by ratio DESC;` to see the movies in order of the budget/revenue ratio. Omitting fields for brevity.
+4. `SELECT COUNT(*) from final where ratio > 10;` to see how many movies that made more than 10 folds their investment.
+5.  `SELECT * from final where LOWER(production_companies) like '%walt disney%';` to see the movies made by some specific producer e.g Walt Disney
+6.  `SELECT COUNT(*) from final where LOWER(production_companies) like '%walt disney%';` to see how many movies made by some specific producer e.g Walt Disney
+7.  `SELECT count(_id) as movies, date_part('year', release_date) as release_year from final group by release_year order by movies DESC;` to see the frequency of movies by release date
