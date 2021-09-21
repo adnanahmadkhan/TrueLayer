@@ -87,7 +87,7 @@
 	8. This is because the wikipedia naming convention for movies in case of ambiguitaion adds the release year/film to remove ambiguition between different topics. 
 	9. For titles that were not found after these 6 approaches, those records were added with the Wikipedia fields as empty. 
 	10. As such there were 32/1000 records like this. This was found using this query `select * from final where coalesce(url, '') = '';`
-
+4. For production companies I chose to keep all of them separated by "/" instead of keeping one/first. This was so that we can make use of the like operator while querying to find any production company that participated in the creation of a movie.
 
 ## Testing for correctness
 1. Running `grep -c "<title>" enwiki-lastest-abstract.xml` in bash allowed me to figure out there were a total of 6369275 title tags in the XML file(nothing faster than some oldschool unix). On further collecting stats from the dictionary formation I got 6363080 title values and 6195 null/empty/duplicate title values (open the logs!). This adds up to the total number.
