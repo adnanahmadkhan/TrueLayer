@@ -33,15 +33,15 @@
 
 
 #### Update your env.json file
-Open env.json file in root of the project repository
-It will have some default values like data file names, **DO NOT** change them as they are essential to running the script
-Add/Update the database credentials e.g _dbuser_, _password_, _port_, _dbname_
-Default _port_ is **5432**, default _dbname_ is **TrueLayer**
+1. Open env.json file in root of the project repository
+2. It will have some default values like data file names, **DO NOT** change them as they are essential to running the script
+3. Add/Update the database credentials e.g _dbuser_, _password_, _port_, _dbname_
+4. Default _port_ is **5432**, default _dbname_ is **TrueLayer**
 
 #### Download required zipped files and place them in data folder in root of project directory
-Download https://dumps.wikimedia.org/enwiki/latest/enwiki-latest-abstract.xml.gz
-Go to https://www.kaggle.com/rounakbanik/the-movies-dataset/version/7#movies_metadata.csv and download the movies_metadata.csv file
-Place both these files in the data folder in the root of the project directory
+1. Download https://dumps.wikimedia.org/enwiki/latest/enwiki-latest-abstract.xml.gz
+2. Go to https://www.kaggle.com/rounakbanik/the-movies-dataset/version/7#movies_metadata.csv and download the movies_metadata.csv file
+3. Place both these files in the data folder in the root of the project directory
 
 #### Run the source code
-Run the command `python main.py` to run the project
+1. Run the command `python main.py` to run the project
