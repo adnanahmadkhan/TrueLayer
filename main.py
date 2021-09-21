@@ -1,17 +1,24 @@
 import xml.etree.ElementTree as ET
-from utils.conn_pool import get_cursor 
+from utils.logger import LOG
 import time
 from parse_movies import df as movies
+import json
+from init_db import create_database_environment
+create_database_environment()
+from utils.conn_pool import get_cursor
+
+# loading environment
+with open("env.json") as config_json:
+    config = json.load(config_json)
 
 start_time = time.time()
 
-dbfile = "./data/enwiki-latest-abstract.xml"
-# dbfile = "./data/test.xml"
+dbfile = config["wikifile"]
 
-wiki_table = []
-bulk_size = 20000
-insert_stmt = """INSERT INTO wiki (title, url, abstract) VALUES (%s, %s, %s)"""
+wiki_table = {}
+insert_stmt = """INSERT INTO final (title, budget, revenue, ratio, release_date, url, abstract, production_companies) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"""
 
+LOG.info("Getting an iterator to iterate over the XML database")
 # get an iterable
 context = ET.iterparse(dbfile, events=("start", "end"))
 
@@ -22,13 +29,18 @@ context = iter(context)
 event, root = context.__next__()
 
 
+# just iterating over the XML file and fetching all titles; 
+# its corresponding url & abstract fields.
+# And finally, putting them in a dictionary
+
+LOG.info("Iterating over the XML database and collecting necessary stats")
 try:
     while event:
         title = url = abstract = ""
         (event, elem) = context.__next__()
         url_found = abstract_found = False
         if event == "end" and elem.tag == "title":
-            title = str(elem.text).replace("Wikipedia:", "").strip()
+            title = str(elem.text).replace("Wikipedia:", "").strip().lower()
             while not url_found or not abstract_found:
                 (event, elem) = context.__next__()
                 if event == "end" and elem.tag == "url":
@@ -41,19 +53,35 @@ try:
                     break
                 root.clear()
             if title not in ["", None]:
-                wiki_table.append((title, url, abstract))
-        # inserting batch into table
-        if len(wiki_table) == bulk_size:
-            with get_cursor() as cursor:
-                cursor.executemany(insert_stmt, wiki_table)
-            wiki_table = []
-    
+                wiki_table[title] = {"url": url, "abstract":  abstract}
 except Exception as err:
-    print("Error::", err)
-    # checking for last batch
-    if len(wiki_table) > 0:
-        with get_cursor() as cursor:
-            cursor.executemany(insert_stmt, wiki_table)
+    LOG.info("Length of Wiki database is:: "+ str(len(wiki_table)))
+    if err:
+        print(err)
 
+send_to_database = []
 
-print("Done & Dusted --- %s seconds ---" % (time.time() - start_time))
+# joining titles in movies to titles in the wikipedia database
+LOG.info("Joining titles in movies to titles in the wikipedia database")
+for index, row in movies.iterrows():
+    title_to_search = f"{row['title']} ({row['release_date'][:4]} film)"
+    if title_to_search in wiki_table:
+        send_to_database.append((row['title'], row['budget'], row['revenue'], row['ratio'], row['release_date'], wiki_table[title_to_search]['url'], wiki_table[title_to_search]['abstract'], row['production_companies']))
+        continue
+
+    title_to_search = f"{row['title']} (film)"
+    if title_to_search in wiki_table:
+        send_to_database.append((row['title'], row['budget'], row['revenue'], row['ratio'], row['release_date'], wiki_table[title_to_search]['url'], wiki_table[title_to_search]['abstract'], row['production_companies']))
+        continue
+    
+    title_to_search = f"{row['title']}"
+    if title_to_search in wiki_table:
+        send_to_database.append((row['title'], row['budget'], row['revenue'], row['ratio'], row['release_date'], wiki_table[title_to_search]['url'], wiki_table[title_to_search]['abstract'], row['production_companies']))
+        continue
+
+# push records into database
+LOG.info("Saving results to database")
+with get_cursor() as cursor:
+    cursor.executemany(insert_stmt, send_to_database)
+
+print("Done & Dusted --- Total Time:: %s seconds ---" % (time.time() - start_time))
