@@ -120,7 +120,7 @@ for index, row in movies.iterrows():
 
     # avatar 2
     try:
-        title_to_search = f"{row['title']}".split(":")[0] + f" ({row['release_date'][:4]} film)"
+        title_to_search = f"{row['title']}".split(":")[0]
         if title_to_search in wiki_table:
             # LOG.debug(row["title"])
             send_to_database.append((row['title'], row['budget'], row['revenue'], row['ratio'], row['release_date'], wiki_table[title_to_search]['url'], wiki_table[title_to_search]['abstract'], row['production_companies']))
