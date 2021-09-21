@@ -1,17 +1,30 @@
 import xml.etree.ElementTree as ET
 from utils.logger import LOG
+from utils.util import extract_gz
 import time
 from parse_movies import df as movies
 import json
 from init_db import create_database_environment
 create_database_environment()
 from utils.conn_pool import get_cursor
+from pathlib import Path
 
 # loading environment
 with open("env.json") as config_json:
     config = json.load(config_json)
 
 start_time = time.time()
+
+
+my_file = Path(f"{config['wikifile']}")
+if not my_file.is_file():
+    LOG.info("::Extracting wikipedia gz file::")
+    extract_gz(f"{config['wikifile']}.gz")
+    LOG.info("::Extraction Complete::")
+    print("Archive Extraction time --- Total Time:: %s seconds ---" % (time.time() - start_time))
+    LOG.info("Extraction time --- Total Time:: %s seconds ---" % (time.time() - start_time))
+else:
+    LOG.info("::No Need for extraction - file already present::")
 
 dbfile = config["wikifile"]
 
@@ -64,20 +77,60 @@ send_to_database = []
 # joining titles in movies to titles in the wikipedia database
 LOG.info("Joining titles in movies to titles in the wikipedia database")
 for index, row in movies.iterrows():
+    # avatar 2: amazing movie (2017 film)
     title_to_search = f"{row['title']} ({row['release_date'][:4]} film)"
     if title_to_search in wiki_table:
+        # LOG.debug(row["title"])
         send_to_database.append((row['title'], row['budget'], row['revenue'], row['ratio'], row['release_date'], wiki_table[title_to_search]['url'], wiki_table[title_to_search]['abstract'], row['production_companies']))
         continue
 
+    # avatar 2: amazing movie (film)
     title_to_search = f"{row['title']} (film)"
     if title_to_search in wiki_table:
+        # LOG.debug(row["title"])
         send_to_database.append((row['title'], row['budget'], row['revenue'], row['ratio'], row['release_date'], wiki_table[title_to_search]['url'], wiki_table[title_to_search]['abstract'], row['production_companies']))
         continue
     
+    # avatar 2: amazing movie
     title_to_search = f"{row['title']}"
     if title_to_search in wiki_table:
+        # LOG.debug(row["title"])
         send_to_database.append((row['title'], row['budget'], row['revenue'], row['ratio'], row['release_date'], wiki_table[title_to_search]['url'], wiki_table[title_to_search]['abstract'], row['production_companies']))
         continue
+    
+    # avatar 2 (2017 film)
+    try:
+        title_to_search = f"{row['title']}".split(":")[0] + f" ({row['release_date'][:4]} film)"
+        if title_to_search in wiki_table:
+            # LOG.debug(row["title"])
+            send_to_database.append((row['title'], row['budget'], row['revenue'], row['ratio'], row['release_date'], wiki_table[title_to_search]['url'], wiki_table[title_to_search]['abstract'], row['production_companies']))
+            continue
+    except:
+        pass
+
+    # avatar 2 (film)
+    try:
+        title_to_search = f"{row['title']}".split(":")[0] + f" (film)"
+        if title_to_search in wiki_table:
+            # LOG.debug(row["title"])
+            send_to_database.append((row['title'], row['budget'], row['revenue'], row['ratio'], row['release_date'], wiki_table[title_to_search]['url'], wiki_table[title_to_search]['abstract'], row['production_companies']))
+            continue
+    except:
+        pass
+
+    # avatar 2
+    try:
+        title_to_search = f"{row['title']}".split(":")[0] + f" ({row['release_date'][:4]} film)"
+        if title_to_search in wiki_table:
+            # LOG.debug(row["title"])
+            send_to_database.append((row['title'], row['budget'], row['revenue'], row['ratio'], row['release_date'], wiki_table[title_to_search]['url'], wiki_table[title_to_search]['abstract'], row['production_companies']))
+            continue
+    except:
+        pass
+
+    # if title not found in wikipedia, just send to database without wikipedia fields
+    send_to_database.append((row['title'], row['budget'], row['revenue'], row['ratio'], row['release_date'], "", "", row['production_companies']))
+    LOG.debug("Title not found::"+str(row["title"]))
 
 # push records into database
 LOG.info("Saving results to database")
@@ -85,3 +138,4 @@ with get_cursor() as cursor:
     cursor.executemany(insert_stmt, send_to_database)
 
 print("Done & Dusted --- Total Time:: %s seconds ---" % (time.time() - start_time))
+LOG.info("Done & Dusted --- Total Time:: %s seconds ---" % (time.time() - start_time))

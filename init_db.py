@@ -16,7 +16,8 @@ def create_database_environment():
     create_table_stmt = (
         """
         CREATE TABLE final (
-                title VARCHAR(255) PRIMARY KEY,
+                _id SERIAL PRIMARY KEY,
+                title VARCHAR(255),
                 budget decimal,
                 revenue decimal,
                 ratio decimal,

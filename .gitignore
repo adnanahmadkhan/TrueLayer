@@ -10,7 +10,6 @@ settings.py
 
 # Distribution / packaging
 .Python
-data/*
 env/
 venv/
 build/
@@ -85,7 +84,6 @@ Thumbs.db
 *.csv
 
 # Custom files/folders
-env.json
 config.json
 .env
 downloads/*.csv

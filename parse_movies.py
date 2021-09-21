@@ -47,16 +47,7 @@ LOG.info("Dropping unnecessary columns from movies")
 df.drop(df.columns.difference(["title", 'budget', "release_date", 'revenue', "rating", "ratio", "production_companies"]), axis=1, inplace=True)
 # pick first 1000
 df = df.iloc[:1000]
-
-# # sort by release date and show first 1000
-# df.release_date = pd.to_datetime(df.release_date)
-# df.sort_values("release_date", ascending=False, inplace=True)
-# print(df.head(1000))
-
-# # sort by revenue and show first 1000
-# df.sort_values("revenue", ascending=False, inplace=True)
-# print(df.head(1000))
-
+LOG.info("::Movies in dataframe::"+str(len(df)))
 
 LOG.info("::Movies Parsing Complete:: --- %s seconds ---" % (time.time() - start_time))
 print("Movies Parsed --- %s seconds ---" % (time.time() - start_time))

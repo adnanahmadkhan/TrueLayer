@@ -3,7 +3,6 @@ import shutil
 import csv
 from psycopg2 import Error, DatabaseError
 import json
-from utils.logger import LOG
 
 def extract_gz(filename):
     with gzip.open(filename, 'rb') as f_in:
