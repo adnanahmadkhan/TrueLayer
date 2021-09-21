@@ -1,4 +1,4 @@
-# TrueLayer
+# Data Engineering Project
 
 ## Pre-requisites
 
